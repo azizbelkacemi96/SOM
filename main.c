@@ -2,6 +2,32 @@
 #include "Structs.h"
 
 double *moyenne_v,*min,*max;
+#define SQR(x) ((x)*(x))
+
+void alloc_array_struct(int n)
+{
+    vecteur_tab=malloc(n*sizeof(struct vecteur));
+    int i;
+    for(i=0;i<n;i++)
+    {
+        vecteur_tab[i].argument=malloc(N_conf.n_in*sizeof(double));
+        vecteur_tab[i].nom=malloc(20*sizeof(char));
+    }
+}
+
+/*
+Normalisation 
+*/
+
+void normalisation(int i,int size )
+{
+    double somme=0.;
+    int j;
+    for(j=0;j<size;j++)
+        somme+=SQR(vecteur_tab[i].argument[j]);
+    vecteur_tab[i].norme=sqrt(somme);
+
+}
 
 void init_n_conf()
 {
@@ -41,25 +67,13 @@ void read_data()
             strcpy(vecteur_tab[i].nom,"C");
 
         normalisation(i,N_conf.n_in);
+            printf("%d",vecteur_tab[i].argument);
  }
 
  fclose(in);
     free(str);
 }
 
-/*
-Afficher mes data 
-*/
-void AficheData(Data* data,int Ligne,int collone){
-    for(int i=0; i< Ligne;i++){
-        print("%d",i+1);
-        for (int j=0; j< collone;j++) {
-            print("%f",data[i].vect[i]);
-        }
-        print("%s",data[i].etiquette);
-
-    }
-}
 void max_v(double k)
 {
     max=malloc(N_conf.n_in*sizeof(double));
@@ -74,18 +88,6 @@ void min_v(double k)
     int i;
     for(i=0;i<N_conf.n_in;i++)
         min[i]=moyenne_v[i]-k;
-}
-/*
-Normalisation 
-*/
-
-void Normalisation(int i,int size )
-{
-    double somme=0.;
-    int j;
-    for(j=0;j<size;j++)
-        somme+=SQR(vecteur_tab[i].argument[j]);
-    vecteur_tab[i].norme=sqrt(somme);
 }
 
 void vecteur_moyen (int n)
@@ -103,6 +105,8 @@ void vecteur_moyen (int n)
     }
 }
 int main () {
-    void AficheData();
+    alloc_array_struct(150);
+
+    read_data();
     return 0;
 }

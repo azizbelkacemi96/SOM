@@ -7,14 +7,15 @@
 #include <assert.h>
 
 
-typedef Data Data;
+
 struct Data
 {
     double* vecteur;
     char* etiquette;
     double* norme;
 };
-
+typedef struct Data Data;
+// a changer !!! 
 struct N_config
  {
    int n_in; //variable pour la taille du vecteur
