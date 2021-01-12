@@ -15,37 +15,42 @@ struct Data
     double* norme;
 };
 typedef struct Data Data;
-// a changer !!! 
-struct N_config
- {
-   int n_in; //variable pour la taille du vecteur
-   int n_l_out; // nombre de neuron map sur ligne
-   int n_c_out; // npmbre de neuron sur colone
-   int n_out; //total neuron (n_l_out * n_c_out)
-   int nb_it; // Nombre d'iterations qu'on calcule avec la methode donnée
-   double minAlpha;//starting value
-   int train; //training layer operation num
-   int ftrain; //first layer operation num
- }N_conf;
-
-typedef struct neurone neurone;
 
  struct neurone
  {
-    double*w;
-    int etiquette;
-    double* distance_eql;
+    double *w;
+    char *etiquette;
+    double distance_eql;
  };
+typedef struct neurone Neurone;
+
+
+ struct configuration
+ {
+  int tailleVecteur; 
+   int nbNeuronneLigne; 
+   int nbNeuronneColone; 
+   int tailleNeuronne; 
+   int nbIteration; 
+   double alpha;
+   int train; 
+   int ftrain; 
+
+ }conf;
+ 
+ 
  
  struct reseau
  {
    int voisinage;  
-  neurone **map;//??????
+  Neurone **map;
   double *vecteur_courant; 
   double alpha; 
   char *etiquette;   
- };
- 
+ }reseau;
+
+
+
  struct vecteur
 	{
         char *nom;

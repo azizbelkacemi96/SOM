@@ -5,14 +5,14 @@ double *moyenne_v,*min,*max;
 
 void init_n_conf()
 {
-    N_conf.n_l_out=6;
-    N_conf.n_c_out=10;
-    N_conf.n_out=N_conf.n_l_out*N_conf.n_c_out;
-    N_conf.n_in=4;
-    N_conf.nb_it=30000;
-    N_conf.minAlpha=0.7;
-    N_conf.ftrain=N_conf.nb_it/5;
-    N_conf.train=2;
+    conf.nbNeuronneLigne=6;
+    conf.nbNeuronneColone=10;
+    conf.tailleNeuronne=conf.nbNeuronneLigne*conf.nbNeuronneColone;
+    conf.tailleVecteur=4;
+    conf.nbIteration=30000;
+    conf.alpha=0.7;
+    conf.ftrain=conf.nbIteration/5;
+    conf.train=2;
 }
 void read_data()
 {
@@ -27,7 +27,7 @@ void read_data()
         fscanf(in,"%s",str);
         char *tok=strtok(str,",");
 
-        for(j=0;j<N_conf.n_in;j++)
+        for(j=0;j<conf.tailleVecteur;j++)
             {
                 vecteur_tab[i].argument[j]=atof(tok);
                 tok=strtok(NULL,",");
@@ -40,7 +40,7 @@ void read_data()
         else
             strcpy(vecteur_tab[i].nom,"C");
 
-        normalisation(i,N_conf.n_in);
+        normalisation(i,conf.tailleVecteur);
  }
 
  fclose(in);
@@ -54,7 +54,7 @@ void AficheData(Data* data,int Ligne,int collone){
     for(int i=0; i< Ligne;i++){
         print("%d",i+1);
         for (int j=0; j< collone;j++) {
-            print("%f",data[i].vect[i]);
+            print("%f",data[i].vecteur[i]);
         }
         print("%s",data[i].etiquette);
 
@@ -62,17 +62,17 @@ void AficheData(Data* data,int Ligne,int collone){
 }
 void max_v(double k)
 {
-    max=malloc(N_conf.n_in*sizeof(double));
+    max=malloc(conf.tailleVecteur*sizeof(double));
     int i;
-    for(i=0;i<N_conf.n_in;i++)
+    for(i=0;i<conf.tailleVecteur;i++)
         max[i]=moyenne_v[i]+k;
 }
 
 void min_v(double k)
 {
-    min=malloc(N_conf.n_in*sizeof(double));
+    min=malloc(conf.tailleVecteur*sizeof(double));
     int i;
-    for(i=0;i<N_conf.n_in;i++)
+    for(i=0;i<conf.tailleVecteur;i++)
         min[i]=moyenne_v[i]-k;
 }
 /*
@@ -90,12 +90,12 @@ void Normalisation(int i,int size )
 
 void vecteur_moyen (int n)
 {
-    moyenne_v=malloc(N_conf.n_in*sizeof(double));
-    memset(moyenne_v,0,N_conf.n_in*sizeof(double));
+    moyenne_v=malloc(conf.tailleVecteur*sizeof(double));
+    memset(moyenne_v,0,conf.tailleVecteur*sizeof(double));
 
     int i,j;
 
-    for(i=0;i<N_conf.n_in;i++)
+    for(i=0;i<conf.tailleVecteur;i++)
     {
         for(j=0;j<n;j++)
             moyenne_v[i]+=vecteur_tab[j].argument[i];
