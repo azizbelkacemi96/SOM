@@ -13,9 +13,12 @@
 double *moyenne_v,*min,*max;
 int * index_array;
 
-
-
-
+    int nbNeuronneLigne=6;
+    int nbNeuronneColone=10;
+    int tailleVecteur=4;
+    int nbIteration=30000;
+    double alpha=0.7;
+    
 
 void allocation_tab(int n)
 {
@@ -23,7 +26,7 @@ void allocation_tab(int n)
     int i;
     for(i=0;i<n;i++)
     {
-        vecteur_tab[i].argument=malloc(conf.tailleVecteur*sizeof(double));
+        vecteur_tab[i].argument=malloc(tailleVecteur*sizeof(double));
         vecteur_tab[i].nom=malloc(20*sizeof(char));
     }
 }
@@ -42,17 +45,6 @@ void normalisation(int i,int size )
 
 }
 
-void init_conf()
-{
-    conf.nbNeuronneLigne=6;
-    conf.nbNeuronneColone=10;
-    conf.tailleNeuronne=conf.nbNeuronneLigne*conf.nbNeuronneColone;
-    conf.tailleVecteur=4;
-    conf.nbIteration=30000;
-    conf.alpha=0.7;
-    conf.ftrain=conf.nbIteration/5;
-    conf.train=2;
-}
 void data()
 {
     FILE * in;
@@ -66,7 +58,7 @@ void data()
         fscanf(in,"%s",str);
         char *tok=strtok(str,",");
 
-        for(j=0;j<conf.tailleVecteur;j++)
+        for(j=0;j<tailleVecteur;j++)
             {
                 vecteur_tab[i].argument[j]=atof(tok);
                 tok=strtok(NULL,",");
@@ -79,8 +71,8 @@ void data()
         else
             strcpy(vecteur_tab[i].nom,"G");
 
-        normalisation(i,conf.tailleVecteur);
-            printf("%d",vecteur_tab[i].argument);
+        normalisation(i,tailleVecteur);
+            printf("%f",vecteur_tab[i].argument);
  }
 
  fclose(in);
@@ -88,12 +80,12 @@ void data()
 }
 void vecteur_moyen (int n)
 {
-    moyenne_v=malloc(conf.tailleVecteur*sizeof(double));
-    memset(moyenne_v,0,conf.tailleVecteur*sizeof(double));
+    moyenne_v=malloc(tailleVecteur*sizeof(double));
+    memset(moyenne_v,0,tailleVecteur*sizeof(double));
 
     int i,j;
 
-    for(i=0;i<conf.tailleVecteur;i++)
+    for(i=0;i<tailleVecteur;i++)
     {
         for(j=0;j<n;j++)
             moyenne_v[i]+=vecteur_tab[j].argument[i];
@@ -102,17 +94,17 @@ void vecteur_moyen (int n)
 }
 void max_v(double a)
 {
-    max=malloc(conf.tailleVecteur*sizeof(double));
+    max=malloc(tailleVecteur*sizeof(double));
     int i;
-    for(i=0;i<conf.tailleVecteur;i++)
+    for(i=0;i<tailleVecteur;i++)
         max[i]=moyenne_v[i]+a;
 }
 
 void min_v(double a)
 {
-    min=malloc(conf.tailleVecteur*sizeof(double));
+    min=malloc(tailleVecteur*sizeof(double));
     int i;
-    for(i=0;i<conf.tailleVecteur;i++)
+    for(i=0;i<tailleVecteur;i++)
         min[i]=moyenne_v[i]-a;
 }
 
@@ -154,16 +146,16 @@ double distance_eql(double *x, double *y, int n)
 void map()
 {
     int i,j;
-    reseau.map=malloc(conf.nbNeuronneColone*sizeof(Neurone *));
-	for(i=0;i<conf.nbNeuronneLigne;i++)
+    reseau.map=malloc(nbNeuronneColone*sizeof(Neurone *));
+	for(i=0;i<nbNeuronneLigne;i++)
 	{
-		reseau.map[i]=malloc(conf.nbNeuronneLigne*sizeof(Neurone));
+		reseau.map[i]=malloc(nbNeuronneLigne*sizeof(Neurone));
 	}
-	for(i=0;i<conf.nbNeuronneLigne;i++)
+	for(i=0;i<nbNeuronneLigne;i++)
 	{
-		for (j=0;j<conf.nbNeuronneColone;j++)
+		for (j=0;j<nbNeuronneColone;j++)
 		{
-            reseau.map[i][j].w=(double*)malloc(sizeof(double)*conf.tailleVecteur);
+            reseau.map[i][j].w=(double*)malloc(sizeof(double)*tailleVecteur);
 			reseau.map[i][j].etiquette=malloc(20*sizeof(char));
 			strcpy(reseau.map[i][j].etiquette, ".");
 		}
@@ -172,9 +164,9 @@ void map()
 void affiche_map()
 {
     int i,j;
-    for(i=0;i<conf.nbNeuronneLigne;i++)
+    for(i=0;i<nbNeuronneLigne;i++)
     {
-        for(j=0;j<conf.nbNeuronneColone;j++)
+        for(j=0;j<nbNeuronneColone;j++)
             {
                 printf("%s ",reseau.map[i][j].etiquette);
             }
@@ -183,14 +175,11 @@ void affiche_map()
 }
 
 int main () {
-    init_conf();
     allocation_tab(150);
-   // data();
+    data();
     vecteur_moyen(150);
     min_v (0.005);
     max_v (0.005);
-    printf("%.2f",vecteur_moyen);
-    //printf("%f",min_v);
     printf("\n");
     map();
     affiche_map();

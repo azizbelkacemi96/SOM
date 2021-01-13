@@ -25,7 +25,7 @@ typedef struct Data Data;
 typedef struct neurone Neurone;
 
 
- struct configuration
+/* struct configuration
  {
   int tailleVecteur; 
    int nbNeuronneLigne; 
@@ -33,10 +33,7 @@ typedef struct neurone Neurone;
    int tailleNeuronne; 
    int nbIteration; 
    double alpha;
-   int train; 
-   int ftrain; 
-
- }conf;
+ }conf; */
  
  
  
