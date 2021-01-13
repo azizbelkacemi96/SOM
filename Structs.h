@@ -24,19 +24,6 @@ typedef struct Data Data;
  };
 typedef struct neurone Neurone;
 
-
-/* struct configuration
- {
-  int tailleVecteur; 
-   int nbNeuronneLigne; 
-   int nbNeuronneColone; 
-   int tailleNeuronne; 
-   int nbIteration; 
-   double alpha;
- }conf; */
- 
- 
- 
  struct reseau
  {
    int voisinage;  
@@ -45,8 +32,6 @@ typedef struct neurone Neurone;
   double alpha; 
   char *etiquette;   
  }reseau;
-
-
 
  struct vecteur
 	{

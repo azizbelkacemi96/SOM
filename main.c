@@ -72,7 +72,7 @@ void data()
             strcpy(vecteur_tab[i].nom,"G");
 
         normalisation(i,tailleVecteur);
-            printf("%f",vecteur_tab[i].argument);
+            printf("%d",vecteur_tab[i].argument);
  }
 
  fclose(in);
