@@ -41,3 +41,12 @@ typedef struct neurone Neurone;
 	};
 
 struct vecteur * vecteur_tab;
+
+
+struct best {
+	double distance_eql; // euclidian distance
+	int r;
+	int c;
+};
+
+typedef struct best bmu;
